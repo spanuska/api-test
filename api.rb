@@ -1,7 +1,6 @@
 # genius/api.rb
 
 class API
-  require 'pry'
 
   ARTISTS = [
     'Rihanna',
@@ -17,24 +16,26 @@ class API
   ]
 
   def self.search(query)
-
-    # before refactor: return "Looks like you didn't enter a valid query - try again." if query == ('' || nil)
     return "Looks like you didn't enter a valid query - try again." if (query == '' || query ==nil)
-
-    # num_letters_to_match = (query.length * 0.6).to_i # Match a little more than half of the letters
-    # regex = /[#{query}]{#{num_letters_to_match},}/
-    regex = format_to_regex(query)
 
     results = ARTISTS.find_all do |artist|
       if artist.include?(query) # first check exact match
         artist
-      elsif artist.match(regex) # then check fuzzy match
+      elsif fuzzy_match(query, artist) # then check fuzzy match
         artist
       end
     end
 
     return results
 
+  end
+
+  def self.fuzzy_match(query, artist)
+    regex = format_to_regex(query)
+    # match exists only if 
+      # the artist name matches the regex patterns determined by the query string &&
+      # the reverse - the query string matches the patterns of the artist name
+    artist.match(regex) && query.match(format_to_regex(artist))
   end
 
   def self.format_to_regex(string)
