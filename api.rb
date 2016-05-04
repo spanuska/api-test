@@ -28,7 +28,7 @@ class API
     results = ARTISTS.find_all do |artist|
       if artist.include?(query) # first check exact match
         artist
-      elsif artist.match(regex) && format_to_regex(query) # then check fuzzy match
+      elsif artist.match(regex) # then check fuzzy match
         artist
       end
     end
