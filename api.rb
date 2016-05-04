@@ -18,17 +18,28 @@ class API
 
   def self.search(query)
 
+    # before refactor: return "Looks like you didn't enter a valid query - try again." if query == ('' || nil)
     return "Looks like you didn't enter a valid query - try again." if (query == '' || query ==nil)
-    
-    # TODO: formulate regex for fuzzy searching
-    # /[Rihanna]{3,}/ will be a match if at least 3 letters are matched. Need to find a way to include a ruby variable in the regex
-    # query = regex
 
-    ARTISTS.find_all do |artist|
-      artist if artist.include?(query)
+    # num_letters_to_match = (query.length * 0.6).to_i # Match a little more than half of the letters
+    # regex = /[#{query}]{#{num_letters_to_match},}/
+    regex = format_to_regex(query)
+
+    results = ARTISTS.find_all do |artist|
+      if artist.include?(query) # first check exact match
+        artist
+      elsif artist.match(regex) && format_to_regex(query) # then check fuzzy match
+        artist
+      end
     end
+
+    return results
+
   end
-  
+
+  def self.format_to_regex(string)
+    num_letters_to_match = (string.length * 0.7).to_i # Match a little more than half of the letters
+    regex = /[#{string}]{#{num_letters_to_match},}/
+  end
+
 end
-
-
