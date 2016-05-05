@@ -24,7 +24,7 @@ class API
     results = ARTISTS.find_all do |artist|
       if artist.include?(query) # first check exact match
         artist
-      elsif match_without_formatting(query, artist) # then check for a match without punctuation
+      elsif match_without_punctuation(query, artist) # then check for a match without punctuation
         artist
       elsif match_with_special_characters_replaced(query, artist) # then check for a match after converting special characters
         artist
@@ -39,7 +39,7 @@ class API
   # unpunctuated_artist = artist.gsub(/\p{^Alnum}/, '')
   # artist if query.match(unpunctuated_artist)
 
-  def self.match_without_formatting(query, artist)
+  def self.match_without_punctuation(query, artist)
     query.match(artist.gsub(/\p{^Alnum}/, ''))
   end
 
