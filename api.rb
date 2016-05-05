@@ -24,11 +24,11 @@ class API
     results = ARTISTS.find_all do |artist|
       if artist.include?(query) # first check exact match
         artist
-      elsif match_without_punctuation(query, artist) # then check for a match without punctuation
+      elsif match_without_punctuation(query, artist)
         artist
-      elsif match_with_special_characters_replaced(query, artist) # then check for a match after converting special characters
+      elsif match_with_special_characters_replaced(query, artist)
         artist
-      elsif fuzzy_match(query, artist) # then check fuzzy match
+      elsif fuzzy_match(query, artist)
         artist
       end
     end
