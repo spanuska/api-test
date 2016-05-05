@@ -36,9 +36,6 @@ class API
 
   end
 
-  # unpunctuated_artist = artist.gsub(/\p{^Alnum}/, '')
-  # artist if query.match(unpunctuated_artist)
-
   def self.match_without_punctuation(query, artist)
     query.match(artist.gsub(/\p{^Alnum}/, ''))
   end
