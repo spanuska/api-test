@@ -1,6 +1,7 @@
 # genius/spec/api_spec.rb
 
 require_relative '../api'
+require 'pry'
 
 # TEST CASES
 
@@ -19,9 +20,12 @@ require_relative '../api'
 RSpec.describe API do
   describe '#search' do
 
-    it 'returns an array with tha name of the artist(s) matching the query' do
+    it 'returns an array with tha name of the artist matching the query' do
       
       expect(API.search("Adele")).to eq(["Adele"])
+      expect(API.search("Des'ree")).to eq(["Des'ree"])
+      expect(API.search("Jonah, The Whale")).to eq(["Jonah, The Whale"])
+      expect(API.search("Beyoncé")).to eq(["Beyoncé"])
       # expect(API.search("Adele Eminem")). to eq(["Adele", "Eminem"])
     end
 
@@ -30,9 +34,12 @@ RSpec.describe API do
       expect(API.search("Alkaline Trio")).to eq([])
     end
 
-    it 'handles spelling errors and returns an array with tha name of the artist(s) that fuzzy-match the query' do
+    it 'handles spelling errors and returns an array with tha name of the artist that fuzzy-matches the query' do
       
       expect(API.search("Riana")).to eq(["Rihanna"])
+      expect(API.search("Desree")).to eq(["Des'ree"])
+      expect(API.search("Jonah The Whale")).to eq(["Jonah, The Whale"])
+      expect(API.search("Beyonce")).to eq(["Beyoncé"])
     end
 
     it 'returns a prompt for a valid query when given an empty query' do
